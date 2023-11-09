@@ -89,11 +89,15 @@ class _TodoList extends State<TodoList> {
             actions: [
               ElevatedButton(onPressed: () {
                 Navigator.pop(context);
-              }, child: Text("Tutup")),
+              }, style: ElevatedButton.styleFrom(
+      primary: Colors.brown),
+               child: Text("Tutup")),
               ElevatedButton(onPressed: () {
                 addItem();
                 Navigator.pop(context);
-              }, child: Text('Tambah'))
+              }, style: ElevatedButton.styleFrom(
+      primary: Colors.brown),
+               child: Text('Tambah'))
       ],
       content: Container(
         height: 200,
@@ -112,19 +116,23 @@ class _TodoList extends State<TodoList> {
       ),
     ));
   }
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Aplikasi Todo List'), 
+        title: Text('Aplikasi Todo List',
+        style: TextStyle(fontStyle: FontStyle.italic),),
         centerTitle: true,
+        backgroundColor: Colors.brown,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           tampilForm();
         },
         child: Icon(Icons.add_box),
+        backgroundColor: Colors.brown,
         ),
       body: Column(
         children: [
@@ -136,7 +144,7 @@ class _TodoList extends State<TodoList> {
                 cariTodo();
               },
             decoration: InputDecoration(
-              hintText: 'cari apa', 
+              hintText: 'Cari Disini', 
               prefixIcon: Icon(Icons.search), 
               border: OutlineInputBorder()),
             ),
@@ -161,9 +169,27 @@ class _TodoList extends State<TodoList> {
                     ),
                     title: Text(todoList[index].nama,),
                     subtitle: Text(todoList[index].deskripsi),
-                    trailing: IconButton(icon: Icon(Icons.delete),
+                    trailing: IconButton(icon: Icon(Icons.delete_forever_outlined),
+                    onPressed: () {
+                     showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Konfirmasi Hapus"),
+                content: Text("Apakah Anda yakin ingin menghapus '${todoList[index].nama}'?"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Tutup dialog
+                    },
+                    child: Text("Batal"),
+                  ),
+                  TextButton(
                     onPressed: () {
                       deleteItem(todoList[index].id ?? 0);
+                      Navigator.pop(context); // Tutup dialog setelah tindakan selesai
+                    },
+                    child: Text("Ya"),
+                  )]));
                     },
                     ),
                     );  
@@ -171,6 +197,8 @@ class _TodoList extends State<TodoList> {
             ),
         ],
       ),
+
+      
     );
   }
   
