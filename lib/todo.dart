@@ -17,7 +17,7 @@ class Todo {
       'id': id,
       'nama': nama,
       'deskripsi': deskripsi,
-      'dine': done
+      'done': done
     };
   }
 
